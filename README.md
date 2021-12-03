@@ -4,5 +4,5 @@ Il vous suffira juste de faire la commande ``./run.pl`` pour compiler main.c et 
 
 # TODO:
 
-- [] status game
-- [] trajectoire balle plus realiste
+- [ ] status game
+- [ ] trajectoire balle plus realiste
