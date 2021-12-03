@@ -123,7 +123,7 @@ int main(void) {
 
         //Affiche le game over si perdu ou le texte si gagné
         if(balle.y > GetScreenHeight()) DrawText("Game Over", 240, 300, 100, BLACK);
-        printf("%f\n", balle.y);
+        //printf("%f\n", balle.y);
         EndDrawing();
     }
     //on détruit tout
