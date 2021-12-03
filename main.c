@@ -13,7 +13,8 @@ int main(void) {
     InitWindow(LONGUEUR_FENETRE, HAUTEUR_FENETRE, "Casse Brique");
     SetTargetFPS(60); 
 
-    int score = 0; 
+    int score = 0;
+    int status = 0; //0 = en jeu; 1 = gagné; 2 = en pause
     Rectangle barre = {LONGUEUR_FENETRE/2, HAUTEUR_FENETRE-30, 100, 20};
     Vector2 balle = {LONGUEUR_FENETRE/2, HAUTEUR_FENETRE-100};
     Vector2 ballevitesse = {3,-3};
@@ -51,7 +52,7 @@ int main(void) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
         //on dessine les objets
-
+        int carrerestant = 0;
         //dessine les blocs
         int i;
         Rectangle ballerec = {balle.x, balle.y, (int)tailleballe, (int)tailleballe};
@@ -59,6 +60,7 @@ int main(void) {
             int a;
             for(a=0; a<12; a++) {
                 if(blocks[i][a] > 0) {
+                    carrerestant++;
                     //calcul la position du rectangle
                     Rectangle rectangle = {85*a, 50*i, 85, 50};
                     //calcule la colision avec une balle
@@ -68,6 +70,10 @@ int main(void) {
                         ballevitesse.x = ballevitesse.x * -1;
                         ballevitesse.y = ballevitesse.y * -1;
                         score++;
+                        if(ballevitesse.x > 0) ballevitesse.x += -5;
+                        else ballevitesse.x += 5;
+                        ballevitesse.x += 5; //ballevitesse.y--;
+                        printf("vitesse balle : %i\n", ballevitesse.x);
                     }
 
                     Color couleur = BLACK;
@@ -107,13 +113,17 @@ int main(void) {
         //Affiche la balle
         DrawCircle(balle.x, balle.y, tailleballe, ORANGE);
         //Affiche la position de la barre et de la balle
-        char barrePoseTexte[200];
-        sprintf(barrePoseTexte, "Position de la barre : %i\nPosition de la balle : %.6g;%.6g", barre.x, balle.x, balle.y);
-        DrawText(barrePoseTexte, 5, 720, 24, BLACK);
+        /*char barrePoseTexte[600];
+        sprintf(barrePoseTexte, "Position de la barre : %i\nPosition de la balle : %.6g;%.6g\n", barre.x, balle.x, balle.y);
+        printf("carre restant : %i", carrerestant);
+        DrawText(barrePoseTexte, 5, 720, 24, BLACK);*/
         //Affiche le score
         char scoreTexte[100]; sprintf(scoreTexte, "Score : %i", score);
         DrawText(scoreTexte, 5,5,25, GRAY);
 
+        //Affiche le game over si perdu ou le texte si gagné
+        if(balle.y > GetScreenHeight()) DrawText("Game Over", 240, 300, 100, BLACK);
+        printf("%f\n", balle.y);
         EndDrawing();
     }
     //on détruit tout
